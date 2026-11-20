@@ -3,20 +3,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Sunset Cover Studio</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
   <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
+    <h1>Sunset Cover Studio</h1>
+    <p>Your photos, three poster panels, one sunset cover. Everything stays on your machine.</p>
+
+    <fieldset>
+      <legend>1 · Size</legend>
+      <label><input type="radio" name="size" value="square" checked> 1080 × 1080</label>
+      <label><input type="radio" name="size" value="portrait"> 1080 × 1350</label>
+      <label><input type="radio" name="size" value="wide"> 1920 × 1080</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>2 · Photos — one per panel</legend>
+      <p class="hint">Click a panel card, or drag its photo in the preview to move it. Scroll over the preview to zoom.</p>
+      <div id="panels"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>3 · Caption</legend>
+      <label>Title <input id="title" type="text" maxlength="28" value="Sunset Heist"></label>
+      <label>Subtitle <input id="subtitle" type="text" maxlength="40" value="Neon nights on the boulevard"></label>
+      <label>Colour theme
+        <select id="theme">
+          <option value="sunset" selected>Sunset</option>
+          <option value="neon">Neon Pink</option>
+          <option value="teal">Teal Night</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <button id="export" type="button">Export PNG</button>
     <p id="status" role="status"></p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+  <canvas id="cover" width="1080" height="1080" aria-label="The cover preview"></canvas>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
