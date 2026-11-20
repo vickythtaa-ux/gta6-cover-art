@@ -10,7 +10,9 @@
 // Node 22, standard library only: no network, no wall clock, no files
 // outside this repository. The output is deterministic — two runs write
 // the same bytes — because the copy is a fresh one every time and the
-// dossier is a pure function of the files copied.
+// dossier is a pure function of the files copied. The output directory
+// itself is never removed, only its contents are cleared, so the program
+// also works when that directory is a mount point it cannot unlink.
 //
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
@@ -39,8 +41,14 @@ for (const name of shots) {
 }
 
 // A fresh output directory, so nothing stale survives from an earlier run.
-rmSync(outDir, { recursive: true, force: true });
+// Never remove the output directory itself: in the grader it is a mounted
+// volume whose mount point this user cannot unlink, so removing it throws
+// (EACCES) and the program exits 1. Create it if missing, then clear only
+// its contents.
 mkdirSync(outDir, { recursive: true });
+for (const entry of readdirSync(outDir)) {
+  rmSync(join(outDir, entry), { recursive: true, force: true });
+}
 cpSync(appDir, join(outDir, 'app'), { recursive: true });
 cpSync(shotsDir, join(outDir, 'screenshots'), { recursive: true });
 
